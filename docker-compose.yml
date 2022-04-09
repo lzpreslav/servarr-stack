@@ -1,0 +1,101 @@
+---
+version: "3.9"
+
+services:
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-0.8.1}
+    environment:
+      DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
+      LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/Lidarr.txt}
+      PGID: ${PGID:-1000}
+      PUID: ${PUID:-1000}
+      TZ: ${TZ:-Etc/UTC}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.lidarr.entrypoints: websecure
+      traefik.http.routers.lidarr.middlewares: ${TRAEFIK_MIDDLEWARES:-}
+      traefik.http.routers.lidarr.rule: Host(`${LIDARR_HOSTNAME:-localhost}`)
+      traefik.http.routers.lidarr.service: lidarr
+      traefik.http.routers.lidarr.tls: true
+      traefik.http.services.lidarr.loadbalancer.server.port: 8686
+    networks:
+      - traefik
+    restart: unless-stopped
+    volumes:
+      - ${MEDIA_VOLUME:-media}:/volume1/GUNDAM-WING-MEDIA
+      - ${LIDARR_CONFIG_VOLUME:-lidarr_config}:/config
+  prowlarr:
+    environment:
+      DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
+      LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/prowlarr.txt}
+      PGID: ${PGID:-1000}
+      PUID: ${PUID:-1000}
+      TZ: ${TZ:-Etc/UTC}
+    image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION:-develop-0.2.0.1448-ls48}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prowlarr.entrypoints: websecure
+      traefik.http.routers.prowlarr.middlewares: ${TRAEFIK_MIDDLEWARES:-}
+      traefik.http.routers.prowlarr.rule: Host(`${PROWLARR_HOSTNAME:-localhost}`)
+      traefik.http.routers.prowlarr.service: prowlarr
+      traefik.http.routers.prowlarr.tls: true
+      traefik.http.services.prowlarr.loadbalancer.server.port: 9696
+    networks:
+      - traefik
+    restart: unless-stopped
+    volumes:
+      - ${PROWLARR_CONFIG_VOLUME:-prowlarr_config}:/config
+  radarr:
+    image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-4.0.5}
+    environment:
+      DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
+      LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/radarr.txt}
+      PGID: ${PGID:-1000}
+      PUID: ${PUID:-1000}
+      TZ: ${TZ:-Etc/UTC}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.radarr.entrypoints: websecure
+      traefik.http.routers.radarr.middlewares: ${TRAEFIK_MIDDLEWARES:-}
+      traefik.http.routers.radarr.rule: Host(`${RADARR_HOSTNAME:-localhost}`)
+      traefik.http.routers.radarr.service: radarr
+      traefik.http.routers.radarr.tls: true
+      traefik.http.services.radarr.loadbalancer.server.port: 7878
+    networks:
+      - traefik
+    restart: unless-stopped
+    volumes:
+      - ${MEDIA_VOLUME:-media}:/volume1/GUNDAM-WING-MEDIA
+      - ${RADARR_CONFIG_VOLUME:-radarr_config}:/config
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:${SONARR_VERSION:-3.0.7}
+    environment:
+      DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
+      LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/sonarr.txt}
+      PGID: ${PGID:-1000}
+      PUID: ${PUID:-1000}
+      TZ: ${TZ:-Etc/UTC}
+    labels:
+      traefik.enable: true
+      traefik.http.routers.sonarr.entrypoints: websecure
+      traefik.http.routers.sonarr.middlewares: ${TRAEFIK_MIDDLEWARES:-}
+      traefik.http.routers.sonarr.rule: Host(`${SONARR_HOSTNAME:-localhost}`)
+      traefik.http.routers.sonarr.service: sonarr
+      traefik.http.routers.sonarr.tls: true
+      traefik.http.services.sonarr.loadbalancer.server.port: 8989
+    networks:
+      - traefik
+    restart: unless-stopped
+    volumes:
+      - ${MEDIA_VOLUME:-media}:/volume1/GUNDAM-WING-MEDIA
+      - ${SONARR_CONFIG_VOLUME:-sonarr_config}:/config
+networks:
+  traefik:
+    external: true
+    name: traefik
+volumes:
+  media:
+  lidarr_config:
+  prowlarr_config:
+  radarr_config:
+  sonarr_config:
