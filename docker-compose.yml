@@ -46,7 +46,7 @@ services:
     volumes:
       - ${PROWLARR_CONFIG_VOLUME:-prowlarr_config}:/config
   radarr:
-    image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-4.0.5}
+    image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-4.1.0}
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/radarr.txt}
