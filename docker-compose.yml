@@ -3,7 +3,7 @@ version: "3.9"
 
 services:
   lidarr:
-    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-0.8.1}
+    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-1.0.2}
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/Lidarr.txt}
