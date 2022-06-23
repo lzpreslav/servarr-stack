@@ -1,15 +1,19 @@
 ---
 version: "3.9"
 
+x-environment:
+  &common-environment
+  PGID: ${PGID:-1000}
+  PUID: ${PUID:-1000}
+  TZ: ${TZ:-Etc/UTC}
+
 services:
   lidarr:
     image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-1.0.2}
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/Lidarr.txt}
-      PGID: ${PGID:-1000}
-      PUID: ${PUID:-1000}
-      TZ: ${TZ:-Etc/UTC}
+      << : *common-environment
     labels:
       traefik.enable: true
       traefik.http.routers.lidarr.entrypoints: websecure
@@ -28,9 +32,7 @@ services:
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/prowlarr.txt}
-      PGID: ${PGID:-1000}
-      PUID: ${PUID:-1000}
-      TZ: ${TZ:-Etc/UTC}
+      << : *common-environment
     image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION:-develop-0.2.0.1448-ls48}
     labels:
       traefik.enable: true
@@ -50,9 +52,7 @@ services:
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/radarr.txt}
-      PGID: ${PGID:-1000}
-      PUID: ${PUID:-1000}
-      TZ: ${TZ:-Etc/UTC}
+      << : *common-environment
     labels:
       traefik.enable: true
       traefik.http.routers.radarr.entrypoints: websecure
@@ -72,9 +72,7 @@ services:
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/sonarr.txt}
-      PGID: ${PGID:-1000}
-      PUID: ${PUID:-1000}
-      TZ: ${TZ:-Etc/UTC}
+      << : *common-environment
     labels:
       traefik.enable: true
       traefik.http.routers.sonarr.entrypoints: websecure
