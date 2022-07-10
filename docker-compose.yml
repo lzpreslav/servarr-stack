@@ -29,11 +29,11 @@ services:
       - ${MEDIA_VOLUME:-media}:/volume1/GUNDAM-WING-MEDIA
       - ${LIDARR_CONFIG_VOLUME:-lidarr_config}:/config
   prowlarr:
+    image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION:-develop}
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/prowlarr.txt}
       << : *common-environment
-    image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION:-develop}
     labels:
       traefik.enable: true
       traefik.http.routers.prowlarr.entrypoints: websecure
