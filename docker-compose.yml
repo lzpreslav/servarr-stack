@@ -9,7 +9,7 @@ x-environment:
 
 services:
   lidarr:
-    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-1.0.2}
+    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION:-latest}
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/Lidarr.txt}
@@ -33,7 +33,7 @@ services:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/prowlarr.txt}
       << : *common-environment
-    image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION:-develop-0.2.0.1448-ls48}
+    image: lscr.io/linuxserver/prowlarr:${PROWLARR_VERSION:-develop}
     labels:
       traefik.enable: true
       traefik.http.routers.prowlarr.entrypoints: websecure
@@ -48,7 +48,7 @@ services:
     volumes:
       - ${PROWLARR_CONFIG_VOLUME:-prowlarr_config}:/config
   radarr:
-    image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-4.1.0}
+    image: lscr.io/linuxserver/radarr:${RADARR_VERSION:-latest}
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/radarr.txt}
@@ -68,7 +68,7 @@ services:
       - ${MEDIA_VOLUME:-media}:/volume1/GUNDAM-WING-MEDIA
       - ${RADARR_CONFIG_VOLUME:-radarr_config}:/config
   sonarr:
-    image: lscr.io/linuxserver/sonarr:${SONARR_VERSION:-3.0.8}
+    image: lscr.io/linuxserver/sonarr:${SONARR_VERSION:-latest}
     environment:
       DOCKER_MODS: ${DOCKER_MODS:-linuxserver/mods:universal-stdout-logs}
       LOGS_TO_STDOUT: ${LOGS_TO_STDOUT:-/config/logs/sonarr.txt}
